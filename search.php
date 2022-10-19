@@ -20,6 +20,8 @@
         rel="stylesheet">
     <!-- Css Files -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/r-meals.css">
+    <link rel="stylesheet" href="css/meals.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
 </head>
 
@@ -27,19 +29,19 @@
     <div class='container'>
         <?php
     if(isset($_GET['search'])) {
-        $input = $_GET['search-input'];
-        $sql = "SELECT * FROM meals WHERE meal_keywords LIKE '%$input%'";
-        $data = mysqli_query($conn, $sql);
-        if (mysqli_num_rows($data)>0 && strlen($input)>0) {
+        $input = validate($_GET['search-input']);
+        $sqlSearch = "SELECT * FROM meals WHERE meal_keywords LIKE '%$input%'";
+        $dataSearch = mysqli_query($conn, $sqlSearch);
+        if (mysqli_num_rows($dataSearch)>0 && strlen($input)>0) {
             echo "<h2>نتائج البحث :</h2>";
-            while ($row=mysqli_fetch_assoc($data)) {
+            while ($row=mysqli_fetch_assoc($dataSearch)) {
                 echo "
                 <div class='restaurant show'>
                 <div class ='restaurant-item' style='margin-bottom: 20px; float:right;'>
-                                    <a href='#'><img src='images/".$row['meal_image']."' alt='Potato ! :D' draggable='false'></a>
+                                    <a href='#'><img src='images/meals/".$row['meal_image']."' alt='Potato ! :D' draggable='false'></a>
                                     <div class='restaurant-item-description'>
                                     <div>
-                                    <span class='meal-name'>اسم العصير : ".$row['meal_name']."</span>
+                                    <span class='meal-name'>اسم الوجبة : ".$row['meal_name']."</span>
                                         ";
                                 if ($row['meal_discount']>0.00) {
                                     echo "<span class='meal-price'>السعر&nbsp;<del style='color:red;'>".$row['meal_price']."$</del>&nbsp;&nbsp;".($row['meal_price']-$row['meal_price']*$row['meal_discount']/100)."$</span>";
@@ -71,6 +73,13 @@
         }else{
             header('location: notFound.php');
         }
+    }
+    function validate($value){
+        $value = trim($value);
+        $value = strip_tags($value);
+        $value = stripcslashes($value);
+        $value = htmlspecialchars($value);
+        return $value;
     }
 ?>
     </div>

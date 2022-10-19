@@ -1,3 +1,10 @@
+<?php
+  if (isset($_SESSION['user'])) { // if it's user
+      header("location: cantAccess.php");
+  } elseif(!isset($_SESSION['admin'])){ // if it's not admin
+      header("location: ../login.php");
+  }
+?>
 <!doctype html>
 <html lang="en">
 
@@ -7,61 +14,50 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <!-- Fonts and icons -->
-  <link rel="stylesheet" type="text/css" href="css/Material+Icons.css" />
-  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="assets/css/Material+Icons.css" />
+  <link rel="stylesheet" href="assets/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
-  <link href="css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
-  <link href="css/black-dashboard.css" rel="stylesheet" />
-  
+  <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+  <link href="assets/css/black-dashboard.css" rel="stylesheet" />
+
 </head>
 
 <body class="dark-edition">
   <div class="wrapper ">
-    <div class="sidebar" data-color="danger" data-background-color="black">
+    <div class="sidebar">
       <div class="logo">
-        <a href="" class="simple-text logo-normal">
-        Features
-        </a>
       </div>
-      <div class="sidebar-wrapper ps-container ps-theme-default" data-ps-id="3a8db1f4-24d8-4dbf-85c9-4f5215c1b29a">
+      <div class="sidebar-wrapper ps-container ps-theme-default">
         <ul class="nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="index.php">
-              <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="adduser.php">
-              <i class="material-icons">person</i>
-              <p>Add User</p>
-            </a>
-          </li>
           <li class="nav-item">
-            <a class="nav-link" href="productlist.php">
-              <i class="material-icons">list</i>
-              <p>Product List</p>
-            </a>
-            
-          </li>
-          
-          <li class="nav-item ">
-            <a class="nav-link" href="orders.php">
-              <i class="material-icons">library_books</i>
-              <p>Orders</p>
+            <a class="nav-link" href="index.php">
+              <i class="material-icons">home</i>
+              <p>Home</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="addproduct.php">
+            <a class="nav-link" href="addCat.php">
               <i class="material-icons">add</i>
-              <p>Add Products</p>
+              <p>Add Category</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="manageuser.php">
-              <i class="material-icons">edit_user</i>
-              <p>Manage User</p>
+            <a class="nav-link" href="addMeal.php">
+              <i class="material-icons">add</i>
+              <p>Add Meal</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="categoryList.php">
+              <i class="material-icons">list</i>
+              <p>Category List</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="mealList.php">
+              <i class="material-icons">list</i>
+              <p>Meal List</p>
             </a>
           </li>
           <li class="nav-item ">
@@ -70,14 +66,6 @@
               <p>Logout</p>
             </a>
           </li>
-          <li class="nav-item active-pro ">
-                <a class="nav-link" href="./upgrade.html">
-                    <i class="material-icons">unarchive</i>
-                    <p>Upgrade to PRO</p>
-                </a>
-            </li>
         </ul>
       </div>
     </div>
-    
-    

@@ -3,17 +3,17 @@
   include "database.php";
   session_start();
   if (isset($_SESSION['admin'])) {
-      header("location: admin/dashboard.php");
+      header("location: admin/index.php");
   } elseif (isset($_SESSION['user'])) {
       header("location: index.php");
   }
     if (isset($_POST['login'])) {
         if (!empty($_POST['username']) && !empty($_POST['password'])) { // all fields should be filled
-            $username = $_POST["username"];
-            $password = $_POST["password"];
+            $username = validate($_POST["username"]);
+            $password = sha1($_POST["password"]);
             $sql = "SELECT * FROM admin_info WHERE username= '$username' AND pass= '$password'";
             $data = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($data)>0) { // if there's data inside the table >> then do somthing which is validation if the login status was for admin of for a normal user
+            if (mysqli_num_rows($data)>0) { // if there's data inside the table >> then do something which is validation if the login status was for admin or for a normal user
                 while ($row=mysqli_fetch_assoc($data)) {
                     $dbusername = $row['username'];
                     $dbpassword = $row['pass'];
@@ -21,27 +21,27 @@
                 if ($username == $dbusername && $password == $dbpassword) {
                     session_start();
                     $_SESSION['admin']= $username;
-                    rememberingMe($username,$password);
+                    rememberingMe($username, $password);
                     /* Redirect Browser Page */
-                    header("location: admin/dashboard.php");
+                    header("location: admin/index.php");
                 }
             }
             if (mysqli_num_rows($data) == 0 || ($username!=$dbusername && $password !=$dbpassword)) {
                 $sql = "SELECT * FROM user_info WHERE username= '$username' AND pass= '$password'";
-                $data = mysqli_query($conn,$sql);
+                $data = mysqli_query($conn, $sql);
                 if (mysqli_num_rows($data)>0) {
-                    while($row=mysqli_fetch_assoc($data)){
+                    while ($row=mysqli_fetch_assoc($data)) {
                         $dbusername = $row['username'];
                         $dbpassword = $row['pass'];
                     }
                     if ($username==$dbusername && $password==$dbpassword) {
                         session_start();
                         $_SESSION['user']= $username;
-                        rememberingMe($username,$password);
+                        rememberingMe($username, $password);
                         /* Redirect Browser Page */
                         header("location: index.php");
                     }
-                }else{
+                } else {
                     echo "Invalid username/password";
                 }
             }
@@ -49,11 +49,20 @@
             echo "All Fields are Required!";
         }
     }
-    function rememberingMe($username,$password){
+    function rememberingMe($username, $password)
+    {
         if (isset($_POST['remember'])) {
             setcookie('username', $username, time()+7200); // for two hours >> just for example we can change it
             setcookie('password', $password, time()+86400); // for one day (24 hours * 60 * 60)
-        }        
+        }
+    }
+    function validate($value)
+    {
+        $value = trim($value);
+        $value = strip_tags($value);
+        $value = stripcslashes($value);
+        $value = htmlspecialchars($value);
+        return $value;
     }
 ?>
 

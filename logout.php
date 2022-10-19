@@ -16,4 +16,4 @@
     } else {
         header('Location: login.php'); // default page
     }
-    // session_destroy();
+?>
